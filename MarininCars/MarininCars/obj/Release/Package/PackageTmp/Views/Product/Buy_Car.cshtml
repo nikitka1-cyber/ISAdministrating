@@ -1,0 +1,43 @@
+﻿@model MarininCars.Models.Orders
+@{
+    ViewBag.Title = "Buy_Car";
+}
+<h2>Заказать автомобиль</h2>
+<br>
+<h4>Марка: @ViewBag.buycar.Mark</h4>
+<h4>Модель: @ViewBag.buycar.Model</h4>
+<h4>Модификация: @ViewBag.buycar.Modification</h4>
+<br>
+    @using (Html.BeginForm())
+    {
+
+        <fieldset>
+            <legend>Введите данные </legend>
+            @Html.HiddenFor(model => model.Price, new { @Value = @ViewBag.buycar.Price })
+            @Html.HiddenFor(model => model.IdMark, new { @Value = @ViewBag.buycar.IdMark })
+            @Html.HiddenFor(model => model.IdModel, new { @Value = @ViewBag.buycar.IdModel })
+            @Html.HiddenFor(model => model.IdModification, new { @Value = @ViewBag.buycar.IdModification })
+            <div class="editor-label">
+                Имя,фамилия
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Name_Female)
+            </div>
+
+            <div class="editor-label">
+                Секретное слово:
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Secret_Vord)
+            </div>
+            <div class="editor-label">
+                Телефон:
+            </div>
+            <div class="editor-field">
+                @Html.TextBoxFor(model => model.Phone)
+            </div>
+            <p>
+                <input style="margin-top:10px" type="submit" value="Заказать и вернуться назад" />
+            </p>
+        </fieldset>
+    }

@@ -1,0 +1,72 @@
+﻿@model MarininCars.Models.SearchModel
+@{
+    ViewBag.Title = "Products";
+}
+
+<style type="text/css">
+    .table_products {
+        display: grid;
+        grid-gap: 25px;
+        grid-template-columns: repeat(auto-fit, 234px);
+        grid-template-rows: repeat(2, 300px);
+    }
+
+    .content_products {
+        text-align: right;
+    }
+</style>
+<h2>Поиск автомобиля</h2>
+
+@using (Html.BeginForm())
+{
+    <div style="display:inline-block; margin-right:30px">
+        <div>
+            <p>Марка:</p>
+            @Html.EditorFor(model => model.Mark)
+        </div>
+        <div>
+            <p>Модель:</p>
+            @Html.EditorFor(model => model.Model)
+        </div>
+    </div>
+    <div style="display:inline-block">
+        <div>
+            <p>Максимальная цена:</p>
+            @Html.EditorFor(model => model.MaxPrice)
+        </div>
+        <div>
+            <p>Минимальная цена:</p>
+            @Html.EditorFor(model => model.MinPrice)
+        </div>
+    </div>
+    <div >
+        <div style="margin-bottom:15px;margin-top:15px">
+            <input type="submit" value="Искать" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+<div class="table_products">
+    @foreach (var PModel in ViewBag.PModelLst)
+    {
+        using (Html.BeginForm())
+        {
+            <div width="220" style="background-color: #939393">
+                <img src="@PModel.Picture" style="margin:7px 7px 7px 7px"
+                     alt="Изображение отсутствует" width="220" height="200" />
+                <div class="string_products">
+                    Марка: @PModel.Mark
+                </div>
+                <div class="string_products">
+                    Модель: @PModel.Model
+                </div>
+                <div class="string_products" style="font-size: 20px">
+                    Цена: @PModel.Price
+                </div>
+                <div class="href_products">
+                    @Html.ActionLink("Выбрать конфигурацию модели", "Sel_Modification", new { IdModel = PModel.IdModel, IdMark = PModel.IdMark, Picture = PModel.Picture, Mark = PModel.Mark, Model = PModel.Model })
+                </div>
+            </div>
+        }
+    }
+</div>

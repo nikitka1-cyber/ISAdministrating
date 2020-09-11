@@ -1,0 +1,92 @@
+﻿@model MarininCars.Models.Modifications
+
+@{
+    ViewBag.Title = "Edit_Modification";
+}
+
+<h2>Редактирование модификации</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr/>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            <p class="control-label col-md-2">Модификация</p>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Modification, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <p class="control-label col-md-2">Марка</p>
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.IdMark, new SelectList(ViewBag.MarkLst, "Id", "Mark"), "Выберите марку", htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <p class="control-label col-md-2">Модель</p>
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.IdModel, new SelectList(ViewBag.ModelLst, "Id", "Model"), "Выберите модель", htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <p class="control-label col-md-2">Объём</p>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Veng, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <p class="control-label col-md-2">Мощность</p>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Peng, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <p class="control-label col-md-2">Привод</p>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Privod, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <p class="control-label col-md-2">Количество</p>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <p class="control-label col-md-2">Цена</p>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <p class="control-label col-md-2">Фото</p>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Picture, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Редактировать" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "SelectConfiguration";
+}
+<div>
+    <div style="display:inline-block">
+        <img src="@ViewBag.Selmodel.Picture"
+             alt="Изображение отсутствует" width="300" height="150" />
+    </div>
+    <div style="display:inline-block">
+        <p class="align-middle" style="font-size:30px;">Модель: @ViewBag.Selmodel.Model</p>
+        <p class="align-middle" style="font-size:30px">Марка @ViewBag.Selmodel.Mark</p>
+    </div>
+</div>
+<h2>Выбрать конфигурацию</h2>
+<table style="border-spacing: 30px 15px;background-color: #939393">
+    <tr>
+        <th>
+            Модификация
+        </th>
+        <th>
+            Объём двигателя
+        </th>
+        <th>
+            Мощность двигателя
+        </th>
+        <th>
+            Привод
+        </th>
+        <th>
+            Количество в салоне
+        </th>
+        <th>
+            Цена
+        </th>
+        <th>
+        </th>
+    </tr>
+    @foreach (var Modification in ViewBag.ModificationLst)
+    {
+        <tr>
+            <td width="240">
+                Модификация @Modification.Modification
+            </td>
+            <td width="150">
+                Объём @Modification.Veng л
+            </td>
+            <td width="180">
+                Мощность @Modification.Peng л/c
+            </td>
+            <td width="150">
+                @Modification.Privod
+            </td>
+            <td width="180">
+                Количество @Modification.Amount
+            </td>
+            <td width="100">
+                Цена @Modification.Price
+            </td>
+            <td align="right">
+                @Html.ActionLink("Заказать", "Buy_Car", new { IdModel = Modification.IdModel,
+               IdMark = Modification.IdMark,IdModification=Modification.Id
+               , Mark = ViewBag.Selmodel.Mark, Model = ViewBag.Selmodel.Model,
+               Modification = Modification.Modification,Price=Modification.Price
+           })
+            </td>
+        </tr>
+    }
+    </table>

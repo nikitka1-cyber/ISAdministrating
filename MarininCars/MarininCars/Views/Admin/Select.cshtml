@@ -1,0 +1,195 @@
+﻿@{
+    ViewBag.Title = "Select";
+}
+<h2>Марки</h2>
+<br>
+<table class="table" style="background-color: #939393">
+    <tr>
+        <th>
+            Марки
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var Marks in ViewBag.MarksLst)
+    {
+        <tr>
+            <td>
+                @Marks.Mark
+            </td>
+            <td>
+                @Html.ActionLink("Редактировать", "Edit_Mark", new { id = Marks.Id }) |
+                @Html.ActionLink("Удалить", "Delete_Mark", new { id = Marks.Id })
+            </td>
+        </tr>
+    }
+</table>
+<br>
+<h2>Модели</h2>
+<br>
+    <table class="table" style="background-color: #939393">
+        <tr>
+            <th>
+                Модели
+            </th>
+            <th>
+                Марки
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var Models in ViewBag.ModelsLst)
+        {
+            <tr>
+                <td>
+                    @Models.Model
+                </td>
+                <td>
+                    @Models.Mark
+                </td>
+                <td>
+                    @Html.ActionLink("Редактировать", "Edit_Model", new { Id = Models.Id, IdMark = Models.IdMark }) |
+                    @Html.ActionLink("Удалить", "Delete_Model", new { Id = Models.Id, IdMark = Models.IdMark })
+                </td>
+            </tr>
+        }
+
+    </table>
+<br>
+<h2>Модификации</h2>
+<br>
+    <table class="table" style="background-color: #939393">
+        <tr>
+            <th>
+                Марка
+            </th>
+            <th>
+                Модель
+            </th>
+            <th>
+                Модификация
+            </th>
+            <th>
+                Объём двигателя
+            </th>
+            <th>
+                Мощность двигателя
+            </th>
+            <th>
+                Привод
+            </th>
+            <th>
+                Колицество
+            </th>
+            <th>
+                Цена
+            </th>
+            <th>
+                Картинка
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var Modification in ViewBag.ModificationsLst)
+        {
+            <tr>
+                <td>
+                    @Modification.Mark
+                </td>
+                <td>
+                    @Modification.Model
+                </td>
+                <td>
+                    @Modification.Modification
+                </td>
+                <td>
+                    @Modification.Veng
+                </td>
+                <td>
+                    @Modification.Peng
+                </td>
+                <td>
+                    @Modification.Privod
+                </td>
+                <td>
+                    @Modification.Amount
+                </td>
+                <td>
+                    @Modification.Price
+                </td>
+                <td>
+                    @Modification.Picture
+                </td>
+                <td>
+                    @Html.ActionLink("Редактировать", "Edit_Modification", new { Id = Modification.Id, IdMark = Modification.IdMark, IdModel = Modification.IdModel }) |
+                    @Html.ActionLink("Удалить", "Delete_Modification", new { Id = Modification.Id, IdMark = Modification.IdMark, IdModel = Modification.IdModel })
+                </td>
+            </tr>
+        }
+    </table>
+<br>
+<h2>Заказы</h2>
+<br>
+    <table class="table" style="background-color: #939393">
+        <tr>
+            <th>
+                Марка
+            </th>
+            <th>
+                Модель
+            </th>
+            <th>
+                Модификация
+            </th>
+            <th>
+                Имя и фимилия
+            </th>
+            <th>
+                Телефон
+            </th>
+            <th>
+                Секретное слово
+            </th>
+            <th>
+                Дата
+            </th>
+            <th>
+                Цена
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var order in ViewBag.OrderLst)
+        {
+            <tr>
+                <td>
+                    @order.Mark
+                </td>
+                <td>
+                    @order.Model
+                </td>
+                <td>
+                    @order.Modification
+                </td>
+                <td>
+                    @order.Name_Female
+                </td>
+                <td>
+                    @order.Phone
+                </td>
+                <td>
+                    @order.Secret_Vord
+                </td>
+                <td>
+                    @order.Date
+                </td>
+                <td>
+                    @order.Price
+                </td>
+                <td>
+                    @Html.ActionLink("Редактировать", "Edit_Order", new { id = order.Id }) |
+                    @Html.ActionLink("Удалить", "Delete_Order", new { id = order.Id })
+                </td>
+            </tr>
+        }
+
+    </table>

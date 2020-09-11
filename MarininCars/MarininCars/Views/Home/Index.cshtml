@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<style type="text/css">
+    .my-flex-container {
+        left: 120px;
+        right: 120px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+    .my-flex-block {
+        font-size: 22px;
+        margin: 10px 10px 10px 10px
+    }
+
+    .table_products {
+        display: grid;
+        grid-gap: 25px;
+        grid-template-columns: repeat(auto-fit, 234px);
+        grid-template-rows: repeat(2, 300px);
+    }
+
+    .content_products {
+        text-align: right;
+    }
+
+    .string_products {
+        margin-left: 8px;
+    }
+
+    .href_products {
+        margin-left: 8px;
+    }
+</style>
+<div style="background-color:#34515e;">
+    <h1 style="text-align:center">Магазин Маринина</h1>
+    <h3 style="text-align:center">Марки, автомобили которых есть в нашем автосалоне:</h3>
+    <div class="my-flex-container">
+        @foreach (var SearchModel in ViewBag.SearchLst)
+        {
+            <a class="my-flex-block" href="/Product/Products?Mark=@SearchModel.Mark">@SearchModel.Mark</a>
+        }
+    </div>
+</div>
+<h3 style="text-align:center">Наши автомобили:</h3>
+<div class="table_products">
+    @foreach (var PModel in ViewBag.PModelLst)
+    {
+        using (Html.BeginForm())
+        {
+            <div width="220" style="background-color: #939393">
+                <img src="@PModel.Picture" style="margin:7px 7px 7px 7px"
+                     alt="Изображение отсутствует" width="220" height="200" />
+                <div class="string_products">
+                    Марка: @PModel.Mark
+                </div>
+                <div class="string_products">
+                    Модель: @PModel.Model
+                </div>
+                <div class="string_products" style="font-size: 20px">
+                    Цена: @PModel.Price
+                </div>
+                <div class="href_products">
+                    <a href="/Product/Sel_Modification?IdModel=@PModel.IdModel&IdMark=@PModel.IdMark&Picture=@PModel.Picture&Mark=@PModel.Mark&Model=@PModel.Model">Выбрать конфигурацию модели</a>
+                </div>
+            </div>
+        }
+    }
+</div>
