@@ -192,7 +192,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -202,10 +201,7 @@
     <Compile Include="Models\BDContext.cs" />
     <Compile Include="Models\BDModels.cs" />
     <Compile Include="Models\AdminModels.cs" />
-    <Compile Include="Models\Models.cs" />
     <Compile Include="Models\ProductModels.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="Models\UserContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

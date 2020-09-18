@@ -32,14 +32,12 @@ namespace MarininCars.Controllers
             bool Notnull = modification.IdMark != null &
                 modification.IdModel != null &
                 modification.Modification != null &
-                modification.Privod != null &
-                modification.Picture != null;
+                modification.Privod != null;
             bool ModifVal = modification.Modification.Length <= 30 &
                  modification.Veng <= (decimal)9.9 & modification.Veng >= (decimal)0 &
                  modification.Peng > 0 &
                  modification.Privod.Length >= 4 &
-                 modification.Price <= 999999999 & modification.Price >= 0 &
-                 modification.Picture.Length<= 300;
+                 modification.Price <= 999999999 & modification.Price >= 0;
             if (Notnull && ModifVal)
                 if (db.Modifications.Count(m => m.IdMark == modification.IdMark &
                  m.IdModel == modification.IdModel & m.Modification == modification.Modification) == 0)
@@ -51,7 +49,7 @@ namespace MarininCars.Controllers
             bool Notnull = order.Name_Female != null &
                 order.Secret_Vord != null;
             bool OrderVal = order.Name_Female.Length <= 30 &
-                order.Phone <= 999999999 & order.Phone >= 100000000 &
+                order.Phone.Length==11 &
                 order.Secret_Vord.Length == 6;
             if (Notnull && OrderVal)
                 return true;
@@ -67,7 +65,6 @@ namespace MarininCars.Controllers
                 return "0" + id.ToString();
             return id.ToString();
         }
-        [Authorize]
         public ActionResult Insert()
         {
             var MarkLst = new List<Marks>();
@@ -87,7 +84,6 @@ namespace MarininCars.Controllers
             ViewBag.VModification = "";
             return View();
         }
-        [Authorize]
         [HttpPost]
         public ActionResult Insert(InsModel model)
         {
@@ -123,8 +119,9 @@ namespace MarininCars.Controllers
                 }
                 else
                     _model.Id = "0001";
-                    _model.Model = model.Modell;
-                    _model.IdMark = model.IdMark;
+                _model.Model = model.Modell;
+                _model.IdMark = model.IdMark;
+                _model.Picture = model.Picture;    
                 if (ValidModel(_model))
                 {
                     db.Models.Add(_model);
@@ -148,7 +145,6 @@ namespace MarininCars.Controllers
                     modification.IdModel = model.IdModel;
                     modification.Modification = model.Modification;
                     modification.Peng = model.Peng;
-                    modification.Picture = model.Picture;
                     modification.Price = model.Price;
                     modification.Privod = model.Privod;
                     modification.Veng = model.Veng;
@@ -176,14 +172,14 @@ namespace MarininCars.Controllers
             ViewBag.ModelLst = ModelLst;
             return View();
         }
-        [Authorize]
+
         public ActionResult Select()
         {
             var MarksQuery = db.Marks.OrderBy(s => s.Mark);
             var ModelsQuery = from Mark in db.Marks join Model in db.Models on
                               Mark.Id equals Model.IdMark
                               select new SelModel { Model = Model.Model, Mark = Mark.Mark,
-                              Id = Model.Id, IdMark = Mark.Id };
+                              Id = Model.Id, IdMark = Mark.Id,Picture=Model.Picture};
             var ModificationsQuery = from Mark in db.Marks join Model in db.Models on
                                      Mark.Id equals Model.IdMark
                                      join Modification in db.Modifications
@@ -192,7 +188,7 @@ namespace MarininCars.Controllers
                                      Model = Model.Model, Veng = Modification.Veng, Peng = Modification.Peng,
                                      Modification = Modification.Modification, Privod = Modification.Privod,
                                      Amount = Modification.Amount, IdModel = Model.Id, IdMark = Mark.Id,
-                                     Price = Modification.Price, Picture = Modification.Picture };
+                                     Price = Modification.Price};
             var OrdersQuery = from mark in db.Marks join model in db.Models on mark.Id equals
                               model.IdMark join modification in db.Modifications on model.Id
                               equals modification.IdModel join order in db.Orders on modification.Id
@@ -214,7 +210,6 @@ namespace MarininCars.Controllers
             ViewBag.OrderLst = OrderLst;
             return View();
         }
-        [Authorize]
         public ActionResult Delete_Mark(string Id)
         {
             Marks mark = db.Marks.Find(Id);
@@ -222,7 +217,6 @@ namespace MarininCars.Controllers
             db.SaveChanges();
             return RedirectToAction("Select");
         }
-        [Authorize]
         public ActionResult Delete_Model(string Id, string IdMark)
         {
             Models.Models model = db.Models.FirstOrDefault(m => m.Id == Id && m.IdMark == IdMark);
@@ -230,7 +224,6 @@ namespace MarininCars.Controllers
             db.SaveChanges();
             return RedirectToAction("Select");
         }
-        [Authorize]
         public ActionResult Delete_Modification(string Id, string IdMark, string IdModel)
         {
             Modifications modification = db.Modifications.FirstOrDefault(m => m.Id == Id && m.IdMark == IdMark && m.IdModel == IdModel);
@@ -238,7 +231,6 @@ namespace MarininCars.Controllers
             db.SaveChanges();
             return RedirectToAction("Select");
         }
-        [Authorize]
         public ActionResult Delete_Order(int Id)
         {
             Orders order = db.Orders.Find(Id);
@@ -246,14 +238,12 @@ namespace MarininCars.Controllers
             db.SaveChanges();
             return RedirectToAction("Select");
         }
-        [Authorize]
         public ActionResult Edit_Mark(string Id)
         {
             Marks mark = db.Marks.Find(Id);
             ViewBag.mark = mark;
             return View(mark);
         }
-        [Authorize]
         [HttpPost]
         public ActionResult Edit_Mark(Marks model)
         {
@@ -264,7 +254,6 @@ namespace MarininCars.Controllers
             }
             return RedirectToAction("Select");
         }
-        [Authorize]
         public ActionResult Edit_Model(string Id, string IdMark)
         {
             var MarkLst = new List<Marks>();
@@ -276,7 +265,6 @@ namespace MarininCars.Controllers
             Models.Models model = db.Models.FirstOrDefault(m => m.Id == Id && m.IdMark == IdMark);
             return View(model);
         }
-        [Authorize]
         [HttpPost]
         public ActionResult Edit_Model(Models.Models modell)
         {
@@ -287,7 +275,6 @@ namespace MarininCars.Controllers
             }
             return RedirectToAction("Select");
         }
-        [Authorize]
         public ActionResult Edit_Modification(string Id, string IdMark, string IdModel)
         {
             var MarkLst = new List<Marks>();
@@ -305,7 +292,6 @@ namespace MarininCars.Controllers
             Modifications modification = db.Modifications.FirstOrDefault(m => m.Id == Id && m.IdMark == IdMark && m.IdModel == IdModel);
             return View(modification);
         }
-        [Authorize]
         [HttpPost]
         public ActionResult Edit_Modification(Modifications model)
         {
@@ -319,7 +305,6 @@ namespace MarininCars.Controllers
             ViewBag.order = order;
             return View(order);
         }
-        [Authorize]
         [HttpPost]
         public ActionResult Edit_Order(Orders order)
         {

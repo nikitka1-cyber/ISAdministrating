@@ -16,6 +16,7 @@ namespace MarininCars.Models
         public string Id { get; set;}
         public string Model { get; set;}
         public string IdMark { get; set;}
+        public string Picture { get; set; }
     }
     public class Modifications
     {
@@ -28,7 +29,7 @@ namespace MarininCars.Models
         public string Privod { get; set; }
         public int Amount { get; set; }
         public decimal Price { get; set; }
-        public string Picture { get; set; }
+        
     }
     public class Orders
     {
@@ -37,7 +38,7 @@ namespace MarininCars.Models
         public string IdMark { get; set; }
         public string IdModel { get; set; }
         public string IdModification { get; set; }
-        public int Phone { get; set; }
+        public string Phone { get; set; }
         public string Secret_Vord { get; set;}
         public DateTime Date { get; set; }
         public decimal Price { get; set; }

@@ -18,20 +18,11 @@ namespace MarininCars.Controllers
             bool Notnull = order.Name_Female != null &
                 order.Secret_Vord != null;
             bool OrderVal = order.Name_Female.Length <= 30 &
-                order.Phone <= 999999999 & order.Phone >= 100000000 &
+                order.Phone.Length==11 &
                 order.Secret_Vord.Length == 6;
             if (Notnull && OrderVal)
                 return true;
             return false;
-        }
-        string GetPicture(string IdMark, string IdModel)
-        {
-            BDContext db = new BDContext();
-            var stringVar = from m in db.Modifications
-                         where m.IdMark == IdMark && m.IdModel == IdModel
-                         select new Modifications {Picture = m.Picture};
-            string picture = stringVar.Min(m=>m.Picture);
-            return picture;
         }
         decimal GetPrice(string IdMark, string IdModel)
         {
@@ -62,7 +53,7 @@ namespace MarininCars.Controllers
                               {Mark = mark.Mark, Model = model.Model,
                               IdMark = mark.Id, IdModel = model.Id,
                               Price = modification.Price,
-                              Picture=modification.Picture};
+                              Picture=model.Picture};
             var PriceQuery = from m in PModelQuery where m.Mark.Contains(search.Mark) &&
                              m.Model.Contains(search.Model) && m.Price<=search.MaxPrice && m.Price>=search.MinPrice
                              group m by new { m.IdModel, m.IdMark, m.Mark, m.Model, m.Picture }
@@ -98,7 +89,6 @@ namespace MarininCars.Controllers
                                         Peng = modification.Peng,
                                         Privod = modification.Privod,
                                         Amount = modification.Amount,
-                                        Picture = modification.Picture,
                                         Price = modification.Price,
                                     }).ToList().Select(m=> new Modifications {
                                         Id = m.Id,
@@ -109,7 +99,6 @@ namespace MarininCars.Controllers
                                         Peng = m.Peng,
                                         Privod = m.Privod,
                                         Amount = m.Amount,
-                                        Picture = m.Picture,
                                         Price = m.Price,
                                     }).ToList();
             foreach (var mod in ModificationLst)
@@ -118,7 +107,7 @@ namespace MarininCars.Controllers
                     mod.Privod = "Полный";
                 if (mod.Privod == "up")
                     mod.Privod = "Передний";
-                if (mod.Privod == "full")
+                if (mod.Privod == "down")
                     mod.Privod = "Задний";
             }
             SelectModification Selmodel = new SelectModification();

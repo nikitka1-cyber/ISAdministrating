@@ -24,8 +24,7 @@ namespace MarininCars.Controllers
                               select new ProdModel
                               {Mark = mark.Mark, Model = model.Model,
                               IdMark = mark.Id, IdModel = model.Id,
-                              Price = modification.Price,
-                              Picture=modification.Picture};
+                              Price = modification.Price};
             var PriceQuery = from m in PModelQuery 
                              group m by new { m.IdModel, m.IdMark, m.Mark, m.Model, m.Picture }
                              into g select new ProdModel
