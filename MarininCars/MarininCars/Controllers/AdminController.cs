@@ -11,46 +11,46 @@ namespace MarininCars.Controllers
     public class AdminController : Controller
     {
         BDContext db = new BDContext();
-        bool ValidMark(Marks mark)
+        bool ValidMark(BdMarks bdmark)
         {
-            if (mark.Mark != null & mark.Mark.Length <= 30)
-                if (db.Marks.Count(m => m.Mark == mark.Mark) == 0)
+            if (bdmark.Mark != null & bdmark.Mark.Length <= 30)
+                if (db.Marks.Count(m => m.Mark == bdmark.Mark) == 0)
                     return true;
             return false;
         }
-        bool ValidModel(Models.Models model)
+        bool ValidModel(BdModels bdmodel)
         {
-            bool Notnull = model.IdMark != null && model.Model != null;
-            bool ModelVal = model.Model.Length <= 30;
+            bool Notnull = bdmodel.IdMark != null && bdmodel.Model != null;
+            bool ModelVal = bdmodel.Model.Length <= 30;
             if (Notnull && ModelVal)
-                if (db.Models.Count(m => m.IdMark == model.IdMark & m.Model == model.Model) == 0)
+                if (db.Models.Count(m => m.IdMark == bdmodel.IdMark & m.Model == bdmodel.Model) == 0)
                     return true;
             return false;
         }
-        bool ValidModification(Modifications modification)
+        bool ValidModification(BdModifications bdmodification)
         {
-            bool Notnull = modification.IdMark != null &
-                modification.IdModel != null &
-                modification.Modification != null &
-                modification.Privod != null;
-            bool ModifVal = modification.Modification.Length <= 30 &
-                 modification.Veng <= (decimal)9.9 & modification.Veng >= (decimal)0 &
-                 modification.Peng > 0 &
-                 modification.Privod.Length >= 4 &
-                 modification.Price <= 999999999 & modification.Price >= 0;
+            bool Notnull = bdmodification.IdMark != null &
+                bdmodification.IdModel != null &
+                bdmodification.Modification != null &
+                bdmodification.Privod != null;
+            bool ModifVal = bdmodification.Modification.Length <= 30 &
+                 bdmodification.Veng <= (decimal)9.9 & bdmodification.Veng >= (decimal)0 &
+                 bdmodification.Peng > 0 &
+                 bdmodification.Privod.Length >= 4 &
+                 bdmodification.Price <= 999999999 & bdmodification.Price >= 0;
             if (Notnull && ModifVal)
-                if (db.Modifications.Count(m => m.IdMark == modification.IdMark &
-                 m.IdModel == modification.IdModel & m.Modification == modification.Modification) == 0)
+                if (db.Modifications.Count(m => m.IdMark == bdmodification.IdMark &
+                 m.IdModel == bdmodification.IdModel & m.Modification == bdmodification.Modification) == 0)
                     return true;
             return false;
         }
-        bool ValidOrder(Orders order)
+        bool ValidOrder(BdOrders bdorder)
         {
-            bool Notnull = order.Name_Female != null &
-                order.Secret_Vord != null;
-            bool OrderVal = order.Name_Female.Length <= 30 &
-                order.Phone.Length==11 &
-                order.Secret_Vord.Length == 6;
+            bool Notnull = bdorder.Name_Female != null &
+                bdorder.Secret_Vord != null;
+            bool OrderVal = bdorder.Name_Female.Length <= 30 &
+                bdorder.Phone.Length==11 &
+                bdorder.Secret_Vord.Length == 6;
             if (Notnull && OrderVal)
                 return true;
             return false;
@@ -67,8 +67,8 @@ namespace MarininCars.Controllers
         }
         public ActionResult Insert()
         {
-            var MarkLst = new List<Marks>();
-            var ModelLst = new List<Models.Models>();
+            var MarkLst = new List<BdMarks>();
+            var ModelLst = new List<BdModels>();
             var MarkQuery = from d in db.Marks
                             orderby d.Mark
                             select d;
@@ -85,13 +85,13 @@ namespace MarininCars.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Insert(InsModel model)
+        public ActionResult Insert(InsModel insmodel)
         {
             var values = Request.Form;
             string Id;
-            if (model.Mark != null)
+            if (insmodel.Mark != null)
             {
-                Marks mark = new Marks();
+                BdMarks mark = new BdMarks();
                 if (db.Marks.Count() > 0)
                 {
                     Id = db.Marks.Max(m => m.Id);
@@ -99,7 +99,7 @@ namespace MarininCars.Controllers
                 }
                 else
                     mark.Id = "0001";
-                    mark.Mark = model.Mark;
+                    mark.Mark = insmodel.Mark;
                 if (ValidMark(mark))
                 {
                     db.Marks.Add(mark);
@@ -109,9 +109,9 @@ namespace MarininCars.Controllers
                 else
                     ViewBag.VMark = "Неправильный формат данных";
             }
-            if (model.Modell != null)
+            if (insmodel.Modell != null)
             {
-                Models.Models _model = new Models.Models();
+                BdModels _model = new BdModels();
                 if (db.Models.Count() > 0)
                 {
                     Id = db.Models.Max(m => m.Id);
@@ -119,9 +119,9 @@ namespace MarininCars.Controllers
                 }
                 else
                     _model.Id = "0001";
-                _model.Model = model.Modell;
-                _model.IdMark = model.IdMark;
-                _model.Picture = model.Picture;    
+                _model.Model = insmodel.Modell;
+                _model.IdMark = insmodel.IdMark;
+                _model.Picture = insmodel.Picture;    
                 if (ValidModel(_model))
                 {
                     db.Models.Add(_model);
@@ -131,9 +131,9 @@ namespace MarininCars.Controllers
                 else
                     ViewBag.VModel = "Неправильный формат данных";
             }
-            if (model.Modification != null)
+            if (insmodel.Modification != null)
             {
-                Modifications modification = new Modifications();
+                BdModifications modification = new BdModifications();
                 if (db.Modifications.Count() > 0)
                 {
                     Id = db.Modifications.Max(m => m.Id);
@@ -141,14 +141,14 @@ namespace MarininCars.Controllers
                 }
                 else
                     modification.Id = "0001"; 
-                    modification.IdMark = model.IdMark;
-                    modification.IdModel = model.IdModel;
-                    modification.Modification = model.Modification;
-                    modification.Peng = model.Peng;
-                    modification.Price = model.Price;
-                    modification.Privod = model.Privod;
-                    modification.Veng = model.Veng;
-                    modification.Amount = model.Amount;
+                    modification.IdMark = insmodel.IdMark;
+                    modification.IdModel = insmodel.IdModel;
+                    modification.Modification = insmodel.Modification;
+                    modification.Peng = insmodel.Peng;
+                    modification.Price = insmodel.Price;
+                    modification.Privod = insmodel.Privod;
+                    modification.Veng = insmodel.Veng;
+                    modification.Amount = insmodel.Amount;
                 if (ModelState.IsValid)
                 {
                     db.Modifications.Add(modification);
@@ -158,8 +158,8 @@ namespace MarininCars.Controllers
                 else
                     ViewBag.VModification = "Неправильный формат данных";
             }
-            var MarkLst = new List<Marks>();
-            var ModelLst = new List<Models.Models>();
+            var MarkLst = new List<BdMarks>();
+            var ModelLst = new List<BdModels>();
             var MarkQuery = from d in db.Marks
                             orderby d.Mark
                             select d;
@@ -176,27 +176,27 @@ namespace MarininCars.Controllers
         public ActionResult Select()
         {
             var MarksQuery = db.Marks.OrderBy(s => s.Mark);
-            var ModelsQuery = from Mark in db.Marks join Model in db.Models on
-                              Mark.Id equals Model.IdMark
-                              select new SelModel { Model = Model.Model, Mark = Mark.Mark,
-                              Id = Model.Id, IdMark = Mark.Id,Picture=Model.Picture};
-            var ModificationsQuery = from Mark in db.Marks join Model in db.Models on
-                                     Mark.Id equals Model.IdMark
+            var ModelsQuery = from BdMark in db.Marks join BdModel in db.Models on
+                              BdMark.Id equals BdModel.IdMark
+                              select new SelModel { Model = BdModel.Model, Mark = BdMark.Mark,
+                              Id = BdModel.Id, IdMark = BdMark.Id,Picture= BdModel.Picture};
+            var ModificationsQuery = from BdMark in db.Marks join BdModel in db.Models on
+                                     BdMark.Id equals BdModel.IdMark
                                      join Modification in db.Modifications
-                                     on Model.Id equals Modification.IdModel
-                                     select new SelModification { Id = Modification.Id, Mark = Mark.Mark,
-                                     Model = Model.Model, Veng = Modification.Veng, Peng = Modification.Peng,
+                                     on BdModel.Id equals Modification.IdModel
+                                     select new SelModification { Id = Modification.Id, Mark = BdMark.Mark,
+                                     Model = BdModel.Model, Veng = Modification.Veng, Peng = Modification.Peng,
                                      Modification = Modification.Modification, Privod = Modification.Privod,
-                                     Amount = Modification.Amount, IdModel = Model.Id, IdMark = Mark.Id,
+                                     Amount = Modification.Amount, IdModel = BdModel.Id, IdMark = BdMark.Id,
                                      Price = Modification.Price};
-            var OrdersQuery = from mark in db.Marks join model in db.Models on mark.Id equals
-                              model.IdMark join modification in db.Modifications on model.Id
+            var OrdersQuery = from bdmark in db.Marks join bdmodel in db.Models on bdmark.Id equals
+                              bdmodel.IdMark join modification in db.Modifications on bdmodel.Id
                               equals modification.IdModel join order in db.Orders on modification.Id
                               equals order.IdModification select new SelOrder 
-                              {Id=order.Id, Mark=mark.Mark,Model=model.Model,Modification=modification.Modification,
+                              {Id=order.Id, Mark= bdmark.Mark,Model= bdmodel.Model,Modification=modification.Modification,
                               Date=order.Date,Name_Female=order.Name_Female,Price=order.Price,
                               Phone=order.Phone,Secret_Vord=order.Secret_Vord};
-            var MarksLst = new List<Marks>();
+            var MarksLst = new List<BdMarks>();
             var ModelsLst = new List<SelModel>();
             var ModificationsLst = new List<SelModification>();
             var OrderLst = new List<SelOrder>();
@@ -212,40 +212,40 @@ namespace MarininCars.Controllers
         }
         public ActionResult Delete_Mark(string Id)
         {
-            Marks mark = db.Marks.Find(Id);
+            BdMarks mark = db.Marks.Find(Id);
             db.Marks.Remove(mark);
             db.SaveChanges();
             return RedirectToAction("Select");
         }
         public ActionResult Delete_Model(string Id, string IdMark)
         {
-            Models.Models model = db.Models.FirstOrDefault(m => m.Id == Id && m.IdMark == IdMark);
+            BdModels model = db.Models.FirstOrDefault(m => m.Id == Id && m.IdMark == IdMark);
             db.Models.Remove(model);
             db.SaveChanges();
             return RedirectToAction("Select");
         }
         public ActionResult Delete_Modification(string Id, string IdMark, string IdModel)
         {
-            Modifications modification = db.Modifications.FirstOrDefault(m => m.Id == Id && m.IdMark == IdMark && m.IdModel == IdModel);
+            BdModifications modification = db.Modifications.FirstOrDefault(m => m.Id == Id && m.IdMark == IdMark && m.IdModel == IdModel);
             db.Modifications.Remove(modification);
             db.SaveChanges();
             return RedirectToAction("Select");
         }
         public ActionResult Delete_Order(int Id)
         {
-            Orders order = db.Orders.Find(Id);
+            BdOrders order = db.Orders.Find(Id);
             db.Orders.Remove(order);
             db.SaveChanges();
             return RedirectToAction("Select");
         }
         public ActionResult Edit_Mark(string Id)
         {
-            Marks mark = db.Marks.Find(Id);
+            BdMarks mark = db.Marks.Find(Id);
             ViewBag.mark = mark;
             return View(mark);
         }
         [HttpPost]
-        public ActionResult Edit_Mark(Marks model)
+        public ActionResult Edit_Mark(BdMarks model)
         {
             if (ValidMark(model))
             {
@@ -256,17 +256,17 @@ namespace MarininCars.Controllers
         }
         public ActionResult Edit_Model(string Id, string IdMark)
         {
-            var MarkLst = new List<Marks>();
+            var MarkLst = new List<BdMarks>();
             var MarkQuery = from d in db.Marks
                             orderby d.Mark
                             select d;
             MarkLst.AddRange(MarkQuery.Distinct());
             ViewBag.MarkLst = MarkLst;
-            Models.Models model = db.Models.FirstOrDefault(m => m.Id == Id && m.IdMark == IdMark);
+            Models.BdModels model = db.Models.FirstOrDefault(m => m.Id == Id && m.IdMark == IdMark);
             return View(model);
         }
         [HttpPost]
-        public ActionResult Edit_Model(Models.Models modell)
+        public ActionResult Edit_Model(Models.BdModels modell)
         {
             if (ValidModel(modell))
             {
@@ -277,8 +277,8 @@ namespace MarininCars.Controllers
         }
         public ActionResult Edit_Modification(string Id, string IdMark, string IdModel)
         {
-            var MarkLst = new List<Marks>();
-            var ModelLst = new List<Models.Models>();
+            var MarkLst = new List<BdMarks>();
+            var ModelLst = new List<BdModels>();
             var MarkQuery = from d in db.Marks
                             orderby d.Mark
                             select d;
@@ -289,11 +289,11 @@ namespace MarininCars.Controllers
             ModelLst.AddRange(ModelQuery.Distinct());
             ViewBag.MarkLst = MarkLst;
             ViewBag.ModelLst = ModelLst;
-            Modifications modification = db.Modifications.FirstOrDefault(m => m.Id == Id && m.IdMark == IdMark && m.IdModel == IdModel);
+            BdModifications modification = db.Modifications.FirstOrDefault(m => m.Id == Id && m.IdMark == IdMark && m.IdModel == IdModel);
             return View(modification);
         }
         [HttpPost]
-        public ActionResult Edit_Modification(Modifications model)
+        public ActionResult Edit_Modification(BdModifications model)
         {
             db.Entry(model).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
@@ -301,12 +301,12 @@ namespace MarininCars.Controllers
         }
         public ActionResult Edit_Order(int id)
         {
-            Orders order = db.Orders.Find(id);
+            BdOrders order = db.Orders.Find(id);
             ViewBag.order = order;
             return View(order);
         }
         [HttpPost]
-        public ActionResult Edit_Order(Orders order)
+        public ActionResult Edit_Order(BdOrders order)
         {
             if (ValidOrder(order))
             {

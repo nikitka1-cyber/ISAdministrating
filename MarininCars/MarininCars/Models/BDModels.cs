@@ -6,19 +6,19 @@ using System.Web;
 
 namespace MarininCars.Models
 {
-    public class Marks
+    public class BdMarks
     {
         public string Id { get; set; }
         public string Mark { get; set; }
     }
-    public class Models 
+    public class BdModels
     {
         public string Id { get; set;}
         public string Model { get; set;}
         public string IdMark { get; set;}
         public string Picture { get; set; }
     }
-    public class Modifications
+    public class BdModifications
     {
         public string Id { get; set; }
         public string Modification { get; set; }
@@ -31,7 +31,7 @@ namespace MarininCars.Models
         public decimal Price { get; set; }
         
     }
-    public class Orders
+    public class BdOrders
     {
         public int Id { get; set; }
         public string Name_Female { get; set;}

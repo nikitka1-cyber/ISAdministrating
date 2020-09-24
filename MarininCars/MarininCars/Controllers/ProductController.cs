@@ -13,13 +13,13 @@ namespace MarininCars.Controllers
 {
     public class ProductController : Controller
     {
-        bool ValidOrder(Orders order)
+        bool ValidOrder(BdOrders bdorder)
         {
-            bool Notnull = order.Name_Female != null &
-                order.Secret_Vord != null;
-            bool OrderVal = order.Name_Female.Length <= 30 &
-                order.Phone.Length==11 &
-                order.Secret_Vord.Length == 6;
+            bool Notnull = bdorder.Name_Female != null &
+                bdorder.Secret_Vord != null;
+            bool OrderVal = bdorder.Name_Female.Length <= 30 &
+                bdorder.Phone.Length==11 &
+                bdorder.Secret_Vord.Length == 6;
             if (Notnull && OrderVal)
                 return true;
             return false;
@@ -29,7 +29,7 @@ namespace MarininCars.Controllers
             BDContext db = new BDContext();         
             var Prices = from m in db.Modifications
                          where m.IdMark == IdMark && m.IdModel == IdModel
-                         select new Modifications {Price=m.Price};
+                         select new BdModifications { Price=m.Price};
             decimal price = Prices.Min(m=>m.Price);
             return price;
         }
@@ -44,16 +44,16 @@ namespace MarininCars.Controllers
             if (search.MaxPrice == 0)
                 search.MaxPrice = 999999999999999;
             var PModelLst = new List<ProdModel>();
-            var PModelQuery = from mark in db.Marks
-                              join model in db.Models on
-                              mark.Id equals model.IdMark
-                              join modification in db.Modifications on
-                              model.Id equals modification.IdModel  
+            var PModelQuery = from bdmark in db.Marks
+                              join bdmodel in db.Models on
+                              bdmark.Id equals bdmodel.IdMark
+                              join bdmodification in db.Modifications on
+                              bdmodel.Id equals bdmodification.IdModel  
                               select new ProdModel
-                              {Mark = mark.Mark, Model = model.Model,
-                              IdMark = mark.Id, IdModel = model.Id,
-                              Price = modification.Price,
-                              Picture=model.Picture};
+                              {Mark = bdmark.Mark, Model = bdmodel.Model,
+                              IdMark = bdmark.Id, IdModel = bdmodel.Id,
+                              Price = bdmodification.Price,
+                              Picture= bdmodel.Picture};
             var PriceQuery = from m in PModelQuery where m.Mark.Contains(search.Mark) &&
                              m.Model.Contains(search.Model) && m.Price<=search.MaxPrice && m.Price>=search.MinPrice
                              group m by new { m.IdModel, m.IdMark, m.Mark, m.Model, m.Picture }
@@ -76,21 +76,22 @@ namespace MarininCars.Controllers
         public ActionResult Sel_Modification(string IdMark, string IdModel, string Picture, string Mark,string Model)
         {
             BDContext db = new BDContext();
-            var ModificationLst = (from modification in db.Modifications
-                                    where modification.IdMark == IdMark &&
-                                    modification.IdModel == IdModel
+            var ModificationLst = (from bdmodification in db.Modifications
+                                    where bdmodification.IdMark == IdMark &&
+                                    bdmodification.IdModel == IdModel
                                     select new  
                                     {
-                                        Id = modification.Id,
-                                        Modification = modification.Modification,
-                                        IdMark = modification.IdMark,
-                                        IdModel = modification.IdModel,
-                                        Veng = modification.Veng,
-                                        Peng = modification.Peng,
-                                        Privod = modification.Privod,
-                                        Amount = modification.Amount,
-                                        Price = modification.Price,
-                                    }).ToList().Select(m=> new Modifications {
+                                        Id = bdmodification.Id,
+                                        Modification = bdmodification.Modification,
+                                        IdMark = bdmodification.IdMark,
+                                        IdModel = bdmodification.IdModel,
+                                        Veng = bdmodification.Veng,
+                                        Peng = bdmodification.Peng,
+                                        Privod = bdmodification.Privod,
+                                        Amount = bdmodification.Amount,
+                                        Price = bdmodification.Price,
+                                    }).ToList().Select(m=> new BdModifications
+                                    {
                                         Id = m.Id,
                                         Modification = m.Modification,
                                         IdMark = m.IdMark,
@@ -136,7 +137,7 @@ namespace MarininCars.Controllers
             }        
         }
         [HttpPost]
-        public ActionResult Buy_Car(Orders modell)
+        public ActionResult Buy_Car(BdOrders modell)
         {
             {
                 BDContext db = new BDContext();

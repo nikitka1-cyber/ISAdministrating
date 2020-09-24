@@ -11,9 +11,9 @@ namespace MarininCars.Models
         public BDContext() :
             base("BDConnection")
         { }
-        public DbSet<Marks> Marks { get; set; }
-        public DbSet<Models> Models { get; set; }
-        public DbSet<Modifications> Modifications { get; set; }
-        public DbSet<Orders> Orders { get; set; }
+        public DbSet<BdMarks> Marks { get; set; }
+        public DbSet<BdModels> Models { get; set; }
+        public DbSet<BdModifications> Modifications { get; set; }
+        public DbSet<BdOrders> Orders { get; set; }
     }
 }
