@@ -9,9 +9,9 @@ namespace MarininCars.Models
     {
         public string Mark { get; set; }
         public string Modell { get; set; }
-        public string IdMark { get; set; }
+        public int IdMark { get; set; }
         public string Modification { get; set; }
-        public string IdModel { get; set; }
+        public int IdModel { get; set; }
         public decimal Veng { get; set; }
         public int Peng { get; set; }
         public string Privod { get; set; }
@@ -21,17 +21,17 @@ namespace MarininCars.Models
     }
     public class SelModel
     {
-        public string Id { get; set; }
-        public string IdMark { get; set; }
+        public int Id { get; set; }
+        public int IdMark { get; set; }
         public string Model { get; set; }
         public string Mark { get; set; }
         public string Picture { get; set; }
     }
     public class SelModification
     {
-        public string Id { get; set; }
-        public string IdModel { get; set; }
-        public string IdMark { get; set; }
+        public int Id { get; set; }
+        public int IdModel { get; set; }
+        public int IdMark { get; set; }
         public string Model { get; set; }
         public string Mark { get; set; }
         public string Modification { get; set; }

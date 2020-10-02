@@ -2,6 +2,19 @@
     ViewBag.Title = "Home Page";
 }
 <style type="text/css">
+    a {
+    text-decoration: none;
+    color: black;
+    font-size:1.2em;
+    }
+        a:hover {
+            text-decoration: none;
+            font-size:1.3em;
+            color: black;
+        }
+    body {
+        background-color:#fff;
+    }
     .my-flex-container {
         left: 120px;
         right: 120px;
@@ -35,8 +48,15 @@
     .href_products {
         margin-left: 8px;
     }
+    .car {
+        border: auto 2px #888;
+        border-radius: 9px;
+    }
+    .car:hover {
+        box-shadow: #444 5px 5px 5px 5px;
+    }
 </style>
-<div style="background-color:#34515e;">
+<div style="background-color:#aaa;border-radius: 13px">
     <h1 style="text-align:center">Магазин Маринина</h1>
     <h3 style="text-align:center">Марки, автомобили которых есть в нашем автосалоне:</h3>
     <div class="my-flex-container">
@@ -52,8 +72,8 @@
     {
         using (Html.BeginForm())
         {
-            <div width="220" style="background-color: #939393">
-                <img src="@PModel.Picture" style="margin:7px 7px 7px 7px"
+            <div class="car" width="220" style="background-color: #939393" onclick="">
+                <img src="@PModel.Picture" style="margin:7px 7px 7px 7px; object-fit: cover;"
                      alt="Изображение отсутствует" width="220" height="200" />
                 <div class="string_products">
                     Марка: @PModel.Mark
@@ -65,7 +85,7 @@
                     Цена: @PModel.Price
                 </div>
                 <div class="href_products">
-                    <a href="/Product/Sel_Modification?IdModel=@PModel.IdModel&IdMark=@PModel.IdMark&Picture=@PModel.Picture&Mark=@PModel.Mark&Model=@PModel.Model">Выбрать конфигурацию модели</a>
+                    <a href="/Product/Sel_Modification?IdModel=@PModel.IdModel&IdMark=@PModel.IdMark&Picture=@PModel.Picture&Mark=@PModel.Mark&Model=@PModel.Model">Выбрать конфигурацию</a>
                 </div>
             </div>
         }

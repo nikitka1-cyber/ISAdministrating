@@ -34,17 +34,24 @@
 
 <div class="form-horizontal">
     <h4>Модели</h4>
-    <hr/>
+    <hr />
     <div class="form-group">
         <p class="control-label col-md-2">Марка</p>
         <div class="col-md-10">
-            @Html.DropDownListFor(model => model.IdMark, new SelectList(ViewBag.MarkLst, "Id", "Mark"), "Выберите марку", htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownListFor(model => model.IdMark, new SelectList(ViewBag.MarkLst, "IdMark", "Mark"), "Выберите марку", htmlAttributes: new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
         <p class="control-label col-md-2">Модель</p>
         <div class="col-md-10">
             @Html.EditorFor(model => model.Modell, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+    <div class="form-group">
+        <p class="control-label col-md-2">Фото</p>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Picture, new { htmlAttributes = new { @class = "form-control" } })
+
         </div>
     </div>
     <div class="form-group">
@@ -66,14 +73,14 @@
         <div class="form-group">
             <p class="control-label col-md-2">Марка</p>
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.IdMark, new SelectList(ViewBag.MarkLst, "Id", "Mark"), "Выберите марку", htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.IdMark, new SelectList(ViewBag.MarkLst, "IdMark", "Mark"), "Выберите марку", htmlAttributes: new { @class = "form-control" })
             </div>
         </div>
 
         <div class="form-group">
             <p class="control-label col-md-2">Модель</p>
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.IdModel, new SelectList(ViewBag.ModelLst, "Id", "Model"), "Выберите модель", htmlAttributes: new { @class = "form-control" })                
+                @Html.DropDownListFor(model => model.IdModel, new SelectList(ViewBag.ModelLst, "IdModel", "Model"), "Выберите модель", htmlAttributes: new { @class = "form-control" })                
             </div>
         </div>
 
@@ -116,14 +123,6 @@
             <p class="control-label col-md-2">Цена</p>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <p class="control-label col-md-2">Фото</p>
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Picture, new { htmlAttributes = new { @class = "form-control" } })
-
             </div>
         </div>
 

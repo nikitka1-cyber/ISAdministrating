@@ -24,10 +24,10 @@ namespace MarininCars.Controllers
                 return true;
             return false;
         }
-        decimal GetPrice(string IdMark, string IdModel)
+        decimal GetPrice(int IdMark, int IdModel)
         {
             BDContext db = new BDContext();         
-            var Prices = from m in db.Modifications
+            var Prices = from m in db.BdModifications
                          where m.IdMark == IdMark && m.IdModel == IdModel
                          select new BdModifications { Price=m.Price};
             decimal price = Prices.Min(m=>m.Price);
@@ -44,14 +44,14 @@ namespace MarininCars.Controllers
             if (search.MaxPrice == 0)
                 search.MaxPrice = 999999999999999;
             var PModelLst = new List<ProdModel>();
-            var PModelQuery = from bdmark in db.Marks
-                              join bdmodel in db.Models on
-                              bdmark.Id equals bdmodel.IdMark
-                              join bdmodification in db.Modifications on
-                              bdmodel.Id equals bdmodification.IdModel  
+            var PModelQuery = from bdmark in db.BdMarks
+                              join bdmodel in db.BdModels on
+                              bdmark.IdMark equals bdmodel.IdMark
+                              join bdmodification in db.BdModifications on
+                              bdmodel.IdModel equals bdmodification.IdModel  
                               select new ProdModel
                               {Mark = bdmark.Mark, Model = bdmodel.Model,
-                              IdMark = bdmark.Id, IdModel = bdmodel.Id,
+                              IdMark = bdmark.IdMark, IdModel = bdmodel.IdModel,
                               Price = bdmodification.Price,
                               Picture= bdmodel.Picture};
             var PriceQuery = from m in PModelQuery where m.Mark.Contains(search.Mark) &&
@@ -73,15 +73,15 @@ namespace MarininCars.Controllers
         }
        
        
-        public ActionResult Sel_Modification(string IdMark, string IdModel, string Picture, string Mark,string Model)
+        public ActionResult Sel_Modification(int IdMark, int IdModel, string Picture, string Mark,string Model)
         {
             BDContext db = new BDContext();
-            var ModificationLst = (from bdmodification in db.Modifications
-                                    where bdmodification.IdMark == IdMark &&
+            var ModificationLst = (from bdmodification in db.BdModifications
+                                   where bdmodification.IdMark == IdMark &&
                                     bdmodification.IdModel == IdModel
                                     select new  
                                     {
-                                        Id = bdmodification.Id,
+                                        Id = bdmodification.IdModification,
                                         Modification = bdmodification.Modification,
                                         IdMark = bdmodification.IdMark,
                                         IdModel = bdmodification.IdModel,
@@ -92,7 +92,7 @@ namespace MarininCars.Controllers
                                         Price = bdmodification.Price,
                                     }).ToList().Select(m=> new BdModifications
                                     {
-                                        Id = m.Id,
+                                        IdModification = m.Id,
                                         Modification = m.Modification,
                                         IdMark = m.IdMark,
                                         IdModel = m.IdModel,
@@ -121,7 +121,7 @@ namespace MarininCars.Controllers
             ViewBag.Selmodel = Selmodel;
             return View();
         }
-        public ActionResult Buy_Car(string IdMark,string IdModel,string IdModification, string Mark, string Model, string Modification, decimal Price)
+        public ActionResult Buy_Car(int IdMark,int IdModel,int IdModification, string Mark, string Model, string Modification, decimal Price)
         {
             {
                 BuyCar buycar = new BuyCar();
@@ -144,8 +144,8 @@ namespace MarininCars.Controllers
                 modell.Date = DateTime.Today;
                 if (ValidOrder(modell))
                 {
-                    db.Orders.Add(modell);
-                    var SQLQuery = "Update Modifications SET Amount = Amount - 1 WHERE Id = '" + modell.IdModification +
+                    db.BdOrders.Add(modell);
+                    var SQLQuery = "Update BdModifications SET Amount = Amount - 1 WHERE Id = '" + modell.IdModification +
                         "' AND IdMark = '" + modell.IdMark + "' AND IdModel = '" + modell.IdModel + "'";
                     db.Database.ExecuteSqlCommand(SQLQuery);
                     db.SaveChanges();

@@ -13,20 +13,22 @@ namespace MarininCars.Controllers
         {
             BDContext db = new BDContext();
             var SearchLst = new List<SearchModel>();
-            var SearchQuery = from mark in db.Marks join modification in db.Modifications
-                              on mark.Id equals modification.IdMark select new SearchModel{Mark=mark.Mark};
+            var SearchQuery = from mark in db.BdMarks
+                              join modification in db.BdModifications
+                              on mark.IdMark equals modification.IdMark select new SearchModel{Mark=mark.Mark};
             var PModelLst = new List<ProdModel>();
-            var PModelQuery = from mark in db.Marks
-                              join model in db.Models on
-                              mark.Id equals model.IdMark
-                              join modification in db.Modifications on
-                              model.Id equals modification.IdModel  
+            var PModelQuery = from mark in db.BdMarks
+                              join model in db.BdModels on
+                              mark.IdMark equals model.IdMark
+                              join modification in db.BdModifications on
+                              model.IdModel equals modification.IdModel  
                               select new ProdModel
                               {Mark = mark.Mark, Model = model.Model,
-                              IdMark = mark.Id, IdModel = model.Id,
+                              IdMark = mark.IdMark, IdModel = model.IdModel,
                               Price = modification.Price,Picture=model.Picture};
+            PModelQuery.ToList();
             var PriceQuery = from m in PModelQuery 
-                             group m by new { m.IdModel, m.IdMark, m.Mark, m.Model, m.Picture }
+                             group m by new { m.IdModel, m.IdMark, m.Mark, m.Model, m.Picture}
                              into g select new ProdModel
                              {
                                  Mark = g.Key.Mark,

@@ -7,8 +7,8 @@ namespace MarininCars.Models
 {
     public class ProdModel
     {
-        public string IdMark { get; set; }
-        public string IdModel { get; set; }
+        public int IdMark { get; set; }
+        public int IdModel { get; set; }
         public string Mark { get; set; }
         public string Model { get; set; }
         public decimal Price { get; set; }
@@ -16,8 +16,8 @@ namespace MarininCars.Models
     }
     public class SelectModification
     {
-        public string IdMark { get; set; }
-        public string IdModel { get; set; }
+        public int IdMark { get; set; }
+        public int IdModel { get; set; }
         public string Picture { get; set; }
         public string Mark { get; set; }
         public string Model { get; set; }
@@ -27,9 +27,9 @@ namespace MarininCars.Models
         public string Mark { get; set; }
         public string Modification { get; set; }
         public string Model { get; set; }
-        public string IdMark { get; set;}
-        public string IdModel { get; set; }
-        public string IdModification { get; set; }
+        public int IdMark { get; set;}
+        public int IdModel { get; set; }
+        public int IdModification { get; set; }
         public decimal Price { get; set; }
     }
 
