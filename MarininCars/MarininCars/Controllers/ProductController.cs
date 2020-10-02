@@ -141,12 +141,16 @@ namespace MarininCars.Controllers
         {
             {
                 BDContext db = new BDContext();
+                if (db.BdOrders.Count() > 0)
+                    modell.IdOrder = db.BdOrders.Max(m => m.IdOrder) + 1;
+                else
+                    modell.IdOrder = 1;
                 modell.Date = DateTime.Today;
                 if (ValidOrder(modell))
                 {
                     db.BdOrders.Add(modell);
-                    var SQLQuery = "Update BdModifications SET Amount = Amount - 1 WHERE Id = '" + modell.IdModification +
-                        "' AND IdMark = '" + modell.IdMark + "' AND IdModel = '" + modell.IdModel + "'";
+                    var SQLQuery = "Update BdModifications SET Amount = Amount - 1 WHERE IdModification = " + modell.IdModification +
+                        " AND IdMark = " + modell.IdMark + " AND IdModel = " + modell.IdModel;
                     db.Database.ExecuteSqlCommand(SQLQuery);
                     db.SaveChanges();
                 }
