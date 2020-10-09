@@ -2,6 +2,18 @@
     ViewBag.Title = "Home Page";
 }
 <style type="text/css">
+    a {
+    color: black;
+    font-size:1.2em;
+    }
+    a:hover {
+        text-decoration: none;
+        font-size:1.3em;
+        color: black;
+    }
+    body {
+        background-color:#fe3;
+    }
     .my-flex-container {
         left: 120px;
         right: 120px;
@@ -10,6 +22,7 @@
         justify-content: center;
         align-items: center;
         margin-bottom: 25px;
+        min-height: 100px;
     }
 
     .my-flex-block {
@@ -19,8 +32,8 @@
 
     .table_products {
         display: grid;
-        grid-gap: 25px;
-        grid-template-columns: repeat(auto-fit, 234px);
+        grid-gap: 26px;
+        grid-template-columns: repeat(auto-fit, 265px);
         grid-template-rows: repeat(2, 300px);
     }
 
@@ -35,8 +48,19 @@
     .href_products {
         margin-left: 8px;
     }
+    .car {
+        border: auto 2px #888;
+        border-radius: 9px;
+        min-height: 310px;
+    }
+    .car:hover {
+        box-shadow: #444 5px 5px 5px 5px;
+    }
+    .my-flex-container:hover {
+        font-size: 1.4em;
+    }
 </style>
-<div style="background-color:#34515e;">
+<div style="background-color:#4bf;border-radius: 13px">
     <h1 style="text-align:center">Магазин Маринина</h1>
     <h3 style="text-align:center">Марки, автомобили которых есть в нашем автосалоне:</h3>
     <div class="my-flex-container">
@@ -52,22 +76,22 @@
     {
         using (Html.BeginForm())
         {
-            <div width="220" style="background-color: #939393">
-                <img src="@PModel.Picture" style="margin:7px 7px 7px 7px"
-                     alt="Изображение отсутствует" width="220" height="200" />
-                <div class="string_products">
-                    Марка: @PModel.Mark
-                </div>
-                <div class="string_products">
-                    Модель: @PModel.Model
-                </div>
-                <div class="string_products" style="font-size: 20px">
-                    Цена: @PModel.Price
-                </div>
-                <div class="href_products">
-                    <a href="/Product/Sel_Modification?IdModel=@PModel.IdModel&IdMark=@PModel.IdMark&Picture=@PModel.Picture&Mark=@PModel.Mark&Model=@PModel.Model">Выбрать конфигурацию модели</a>
-                </div>
-            </div>
+    <div class="car" width="220" height="315" style="background-color: #4bf;">
+        <img src="@PModel.Picture" style="margin:7px 7px 7px 7px; object-fit: cover;"
+             alt="Изображение отсутствует" width="250" height="200" />
+        <div class="string_products">
+            Марка: @PModel.Mark
+        </div>
+        <div class="string_products">
+            Модель: @PModel.Model
+        </div>
+        <div class="string_products" style="font-size: 20px">
+            Цена: @PModel.Price
+        </div>
+        <div class="href_products">
+            <a href="/Product/Sel_Modification?IdModel=@PModel.IdModel&IdMark=@PModel.IdMark&Picture=@PModel.Picture&Mark=@PModel.Mark&Model=@PModel.Model">Выбрать конфигурацию</a>
+        </div>
+    </div>
         }
     }
 </div>

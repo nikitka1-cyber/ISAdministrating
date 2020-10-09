@@ -17,8 +17,8 @@
                 @Marks.Mark
             </td>
             <td>
-                @Html.ActionLink("Редактировать", "Edit_Mark", new { id = Marks.Id }) |
-                @Html.ActionLink("Удалить", "Delete_Mark", new { id = Marks.Id })
+                @Html.ActionLink("Редактировать", "Edit_Mark", new { id = Marks.IdMark}) |
+                @Html.ActionLink("Удалить", "Delete_Mark", new { id = Marks.IdMark})
             </td>
         </tr>
     }
@@ -34,23 +34,28 @@
             <th>
                 Марки
             </th>
-            <th></th>
+            <th>
+                Изображение
+            </th>
         </tr>
 
         @foreach (var Models in ViewBag.ModelsLst)
         {
-            <tr>
-                <td>
-                    @Models.Model
-                </td>
-                <td>
-                    @Models.Mark
-                </td>
-                <td>
-                    @Html.ActionLink("Редактировать", "Edit_Model", new { Id = Models.Id, IdMark = Models.IdMark }) |
-                    @Html.ActionLink("Удалить", "Delete_Model", new { Id = Models.Id, IdMark = Models.IdMark })
-                </td>
-            </tr>
+    <tr>
+        <td>
+            @Models.Model
+        </td>
+        <td>
+            @Models.Mark
+        </td>
+        <td>
+            @Models.Picture
+        </td>
+        <td>
+            @Html.ActionLink("Редактировать", "Edit_Model", new { Id = Models.Id, IdMark = Models.IdMark }) |
+            @Html.ActionLink("Удалить", "Delete_Model", new { Id = Models.Id, IdMark = Models.IdMark })
+        </td>
+    </tr>
         }
 
     </table>
@@ -83,9 +88,6 @@
             <th>
                 Цена
             </th>
-            <th>
-                Картинка
-            </th>
             <th></th>
         </tr>
 
@@ -115,9 +117,6 @@
                 </td>
                 <td>
                     @Modification.Price
-                </td>
-                <td>
-                    @Modification.Picture
                 </td>
                 <td>
                     @Html.ActionLink("Редактировать", "Edit_Modification", new { Id = Modification.Id, IdMark = Modification.IdMark, IdModel = Modification.IdModel }) |
