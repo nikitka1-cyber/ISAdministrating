@@ -15,11 +15,8 @@ namespace MarininCars.Controllers
     {
         bool ValidOrder(BdOrders bdorder)
         {
-            bool Notnull = bdorder.Name_Female != null &
-                bdorder.Secret_Vord != null;
-            bool OrderVal = bdorder.Name_Female.Length <= 30 &
-                bdorder.Phone.Length==11 &
-                bdorder.Secret_Vord.Length == 6;
+            bool Notnull = bdorder.Name_Female != null;
+            bool OrderVal = bdorder.Name_Female.Length <= 30;
             if (Notnull && OrderVal)
                 return true;
             return false;

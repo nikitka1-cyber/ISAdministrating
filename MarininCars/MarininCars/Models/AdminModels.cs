@@ -47,9 +47,7 @@ namespace MarininCars.Models
         public string Mark { get; set; }
         public string Model { get; set; }
         public string Modification { get; set; }
-        public string Name_Female { get; set; }
-        public string Phone { get; set; }
-        public string Secret_Vord { get; set; }
+        //public string Phone { get; set; }
         public DateTime Date { get; set; }
         public decimal Price { get; set; }
     }

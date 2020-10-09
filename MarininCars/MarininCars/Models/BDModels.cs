@@ -68,9 +68,26 @@ namespace MarininCars.Models
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column(Order = 4)]
         public int IdModification { get; set; }
-        public string Phone { get; set; }
-        public string Secret_Vord { get; set;}
         public DateTime Date { get; set; }
         public decimal Price { get; set; }
+    }
+    public class BdUsers
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int Id { get; set;}
+        public int RoleId { get; set; }
+        public string Login { get; set;}
+        public string Password { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+        public BdRole Role { get; set; }
+    }
+    public class BdRole
+    {
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Key]
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

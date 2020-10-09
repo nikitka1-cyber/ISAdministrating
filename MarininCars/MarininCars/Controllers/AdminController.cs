@@ -46,11 +46,8 @@ namespace MarininCars.Controllers
         }
         bool ValidOrder(BdOrders bdorder)
         {
-            bool Notnull = bdorder.Name_Female != null &
-                bdorder.Secret_Vord != null;
-            bool OrderVal = bdorder.Name_Female.Length <= 30 &
-                bdorder.Phone.Length==11 &
-                bdorder.Secret_Vord.Length == 6;
+            bool Notnull = bdorder.Name_Female != null;
+            bool OrderVal = bdorder.Name_Female.Length <= 30;
             if (Notnull && OrderVal)
                 return true;
             return false;
@@ -162,6 +159,7 @@ namespace MarininCars.Controllers
             return View();
         }
 
+        [Authorize(Roles = "admin_master")]
         public ActionResult Select()
         {
             var MarksQuery = db.BdMarks.OrderBy(s => s.Mark);
@@ -187,8 +185,7 @@ namespace MarininCars.Controllers
                               equals modification.IdModel join order in db.BdOrders on modification.IdModification
                               equals order.IdModification select new SelOrder 
                               {Id=order.IdOrder, Mark= bdmark.Mark,Model= bdmodel.Model,Modification=modification.Modification,
-                              Date=order.Date,Name_Female=order.Name_Female,Price=order.Price,
-                              Phone=order.Phone,Secret_Vord=order.Secret_Vord};
+                              Date=order.Date,Price=order.Price};
             var MarksLst = new List<BdMarks>();
             var ModelsLst = new List<SelModel>();
             var ModificationsLst = new List<SelModification>();
